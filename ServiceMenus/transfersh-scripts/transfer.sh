@@ -28,7 +28,7 @@ show_notify()
 {
     if command_exists notify-send
     then
-        notify-send "Link copied to klipper" --expire-time=2000 > /dev/null 2>&1
+        notify-send "$1" --expire-time=2000 > /dev/null 2>&1
     else
         echo "$1"
     fi
