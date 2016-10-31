@@ -11,7 +11,7 @@ show_error()
 {
     if command_exists notify-send
     then
-        notify-send "$1" --expire-time=2000 > /dev/null 2>&1
+        notify-send --icon=error "$1" --expire-time=2000 > /dev/null 2>&1
     elif command_exists kdialog
     then
         kdialog --error "$1" > /dev/null 2>&1
@@ -28,7 +28,7 @@ show_notify()
 {
     if command_exists notify-send
     then
-        notify-send "$1" --expire-time=2000 > /dev/null 2>&1
+        notify-send --icon=klipper "$1" --expire-time=2000 > /dev/null 2>&1
     else
         echo "$1"
     fi
