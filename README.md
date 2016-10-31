@@ -21,7 +21,13 @@ Optional (yet recommended):
 ## Install
 
 ```
-cp -r ServiceMenus/ `kde4-config --localprefix`/share/kde4/services/
+./install.sh
 ```
 
 New entry should appear in 'Actions' submenu of context menu in Dolphin and Krusader.
+
+To uninstall type:
+
+```
+./deinstall.sh
+```
