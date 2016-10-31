@@ -56,7 +56,7 @@ upload_to_transfersh()
 
 command_exists curl || show_error "Can't upload file. Install curl"
 
-if ( command_exists klipper && command_exists qdbus ) || command_exists xclip
+if ( pidof klipper > /dev/null && command_exists qdbus ) || command_exists xclip
 then
     link=$(upload_to_transfersh "$toUpload")
     if [ $? = 1 ]
@@ -64,20 +64,11 @@ then
         exit 1
     fi
 else
-    show_error "Could not find a program to set clipboard contents"
+    show_error "Could not find a program to set clipboard contents. Either run klipper and install qdbus or install xclip"
 fi
 
-if command_exists klipper && command_exists qdbus
-then
-    pidof klipper > /dev/null || klipper > /dev/null 2>&1
-    if qdbus org.kde.klipper /klipper org.kde.klipper.klipper.setClipboardContents "$link" > /dev/null 2>&1
-    then
-        show_notify "Link copied to klipper"
-    else
-        show_error "Could not access klipper via dbus"
-    fi
-elif command_exists xclip
-then
+xclip_fallback()
+{
     echo "$link" | xclip -selection clipboard -t text/plain > /dev/null 2>&1
     if [ $? = 0 ]
     then
@@ -85,6 +76,18 @@ then
     else
         show_error "Could not copy link to clipboard"
     fi
+}
+
+if pidof klipper > /dev/null && command_exists qdbus
+then
+    if qdbus org.kde.klipper /klipper org.kde.klipper.klipper.setClipboardContents "$link" > /dev/null 2>&1
+    then
+        show_notify "Link copied to klipper"
+    else
+        xclip_fallback
+    fi
+else
+    xclip_fallback
 fi
 
 echo "$link"

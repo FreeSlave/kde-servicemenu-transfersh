@@ -9,10 +9,9 @@ Required:
 
 * curl
 * kde4-config
-* klipper
-* qdbus
+* klipper + qdbus or xclip
 
-xclip can be used instead of klipper and qdbus.
+**klipper** should be ran by user. **xclip** can be used instead and does not requires separate starting.
 
 Optional (yet recommended):
 
