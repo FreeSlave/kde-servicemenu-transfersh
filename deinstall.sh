@@ -1,6 +1,11 @@
 #!/bin/sh
 
-KDE_SERVICEMENUS="$(kde4-config --localprefix)/share/kde4/services/ServiceMenus"
+if command -v kde4-config > /dev/null
+then
+    (cd kde4 && ./deinstall.sh)
+fi
 
-rm -f "$KDE_SERVICEMENUS/transfersh.desktop"
-rm -rf "$KDE_SERVICEMENUS/transfersh-scripts/"
+if command -v kf5-config > /dev/null
+then
+    (cd kde5 && ./deinstall.sh)
+fi

@@ -1,0 +1,12 @@
+[Desktop Entry]
+X-KDE-ServiceTypes=KonqPopupMenu/Plugin
+MimeType=all/allfiles;
+Actions=transferFile;
+Type=Service
+X-KDE-StartupNotify=false
+
+[Desktop Action transferFile]
+Name=Upload to transfer.sh
+Name[ru]=Загрузить на transfer.sh
+Exec=`kf5-config --path services | cut -d : -f1`ServiceMenus/transfersh-scripts/transfer.sh %f
+Icon=cloud-upload

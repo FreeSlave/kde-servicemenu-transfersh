@@ -8,5 +8,5 @@ X-KDE-StartupNotify=false
 [Desktop Action transferFile]
 Name=Upload to transfer.sh
 Name[ru]=Загрузить на transfer.sh
-Exec=`kde4-config --localprefix`/share/kde4/services/ServiceMenus/transfersh-scripts/transfer.sh %f
+Exec=`kde4-config --localprefix`share/kde4/services/ServiceMenus/transfersh-scripts/transfer.sh %f
 Icon=download
