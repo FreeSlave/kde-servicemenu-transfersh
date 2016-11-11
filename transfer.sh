@@ -61,7 +61,7 @@ upload_to_transfersh_tgz()
 
 command_exists curl || show_error "Can't upload file. Install curl"
 
-if ( pidof klipper > /dev/null && command_exists qdbus ) || pidof clipit > /dev/null || command_exists xclip || command_exists xsel
+if ( pidof klipper >/dev/null && command_exists qdbus ) || (pidof klipper >/dev/null && command_exists dcop ) || pidof clipit >/dev/null || command_exists xclip || command_exists xsel
 then
     if [ "$archive" = "zip" ]
     then
@@ -116,7 +116,16 @@ try_klipper()
     return $?
 }
 
+try_klipper_kde3()
+{
+    pidof klipper > /dev/null && command_exists dcop && dcop klipper klipper setClipboardContents "$link" > /dev/null 2>&1
+    return $?
+}
+
 if try_klipper
+then
+    show_notify "Link copied to klipper" "klipper"
+elif try_klipper_kde3
 then
     show_notify "Link copied to klipper" "klipper"
 elif try_clipit

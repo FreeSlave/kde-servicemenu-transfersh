@@ -7,14 +7,15 @@ Add menu action for uploading files to [transfer.sh](https://transfer.sh/).
 Required:
 
 * curl
-* kde4-config (for KDE4) and kf5-config (for KDE5)
+* kde4-config (for KDE4), kf5-config (for KDE5), tde-config (for TDE)
 
 Also at least one of the following requirements should be met:
 
-* running **klipper** + installed **qdbus**
+* running **klipper** + installed **qdbus** (for KDE4 and KDE5)
 * running **clipit**
 * installed **xclip**
 * installed **xsel**
+* running **klipper** + instaleld **dcop** (for TDE)
 
 Optional (yet recommended):
 

@@ -1,0 +1,22 @@
+[Desktop Entry]
+Actions=transferFileZip;transferFileTgz;
+ServiceTypes=all/all
+X-TDE-ServiceTypes=all/allfiles
+X-KDE-StartupNotify=false
+X-TDE-StartupNotify=false
+X-KDE-Submenu=transfer.sh
+X-TDE-Submenu=transfer.sh
+X-KDE-Priority=TopLevel
+X-TDE-Priority=TopLevel
+
+[Desktop Action transferFileZip]
+Name=Upload to transfer.sh as ZIP
+Name[ru]=Загрузить на transfer.sh как ZIP
+Exec=`tde-config --localprefix`share/apps/konqueror/servicemenus/transfersh-scripts/transfer.sh %f zip
+Icon=application-zip
+
+[Desktop Action transferFileTgz]
+Name=Upload to transfer.sh as TAR.GZ
+Name[ru]=Загрузить на transfer.sh как TAR.GZ
+Exec=`tde-config --localprefix`share/apps/konqueror/servicemenus/transfersh-scripts/transfer.sh %f tgz
+Icon=application-x-compressed-tar

@@ -1,0 +1,16 @@
+[Desktop Entry]
+Actions=transferFile
+ServiceTypes=all/allfiles
+X-TDE-ServiceTypes=all/allfiles
+X-KDE-StartupNotify=false
+X-TDE-StartupNotify=false
+X-KDE-Submenu=transfer.sh
+X-TDE-Submenu=transfer.sh
+X-KDE-Priority=TopLevel
+X-TDE-Priority=TopLevel
+
+[Desktop Action transferFile]
+Name=Upload to transfer.sh
+Name[ru]=Загрузить на transfer.sh
+Exec=`tde-config --localprefix`share/apps/konqueror/servicemenus/transfersh-scripts/transfer.sh %f
+Icon=document-share
