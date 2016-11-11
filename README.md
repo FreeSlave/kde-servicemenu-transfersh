@@ -14,6 +14,7 @@ Also at least one of the following requirements should be met:
 * running **klipper** + installed **qdbus**
 * running **clipit**
 * installed **xclip**
+* installed **xsel**
 
 Optional (yet recommended):
 
