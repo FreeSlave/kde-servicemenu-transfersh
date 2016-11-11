@@ -8,9 +8,12 @@ Required:
 
 * curl
 * kde4-config (for KDE4) and kf5-config (for KDE5)
-* klipper + qdbus or xclip
 
-**klipper** should be ran by user. **xclip** can be used instead and does not require separate starting.
+Also at least one of the following requirements should be satisfied:
+
+* running **klipper** + installed **qdbus**
+* running **clipit**
+* installed **xclip**
 
 Optional (yet recommended):
 
