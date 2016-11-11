@@ -1,9 +1,12 @@
 [Desktop Entry]
-X-KDE-ServiceTypes=KonqPopupMenu/Plugin
+ServiceTypes=KonqPopupMenu/Plugin
 MimeType=all/allfiles;
 Actions=transferFile;
 Type=Service
+X-KDE-ServiceTypes=KonqPopupMenu/Plugin
 X-KDE-StartupNotify=false
+X-KDE-Submenu=transfer.sh
+X-KDE-Priority=TopLevel
 
 [Desktop Action transferFile]
 Name=Upload to transfer.sh

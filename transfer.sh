@@ -1,6 +1,7 @@
 #!/bin/sh
 
 toUpload="$1"
+archive="$2"
 
 command_exists()
 {
@@ -42,18 +43,50 @@ upload_to_transfersh()
     return $?
 }
 
+upload_to_transfersh_zip()
+{
+    local name="$(basename "$1")"
+    local dir="$(dirname "$1")"
+    link=$(cd "$dir" && zip -r - "$name" 2>/dev/null | curl --silent --upload-file - "https://transfer.sh/$name.zip")
+    return $?
+}
+
+upload_to_transfersh_tgz()
+{
+    local name="$(basename "$1")"
+    local dir="$(dirname "$1")"
+    link=$(cd "$dir" && tar -cz "$name" 2>/dev/null | curl --silent --upload-file - "https://transfer.sh/$name.tar.gz")
+    return $?
+}
+
 command_exists curl || show_error "Can't upload file. Install curl"
 
 if ( pidof klipper > /dev/null && command_exists qdbus ) || pidof clipit > /dev/null || command_exists xclip || command_exists xsel
 then
-    if [ ! -f "$toUpload" ]
+    if [ "$archive" = "zip" ]
     then
-        show_error "$toUpload is not a regular file"
-    fi
-
-    if ! upload_to_transfersh "$toUpload"
+        command_exists zip || show_error "'zip' is not installed"
+        if [ -f "$toUpload" ] || [ -d "$toUpload" ]
+        then
+            upload_to_transfersh_zip "$toUpload" || show_error "Could not upload zipped file to transfer.sh"
+        else
+            show_error "$toUpload is not a regular file nor directory"
+        fi
+    elif [ "$archive" = "tgz" ]
     then
-        show_error "Could not upload file to transfer.sh"
+        command_exists tar || show_error "'tar' is not installed"
+        if [ -f "$toUpload" ] || [ -d "$toUpload" ]
+        then
+            upload_to_transfersh_tgz "$toUpload" || show_error "Could not upload gzipped file to transfer.sh"
+        else
+            show_error "$toUpload is not a regular file nor directory"
+        fi
+    else
+        if [ ! -f "$toUpload" ]
+        then
+            show_error "$toUpload is not a regular file"
+        fi
+        upload_to_transfersh "$toUpload" || show_error "Could not upload file to transfer.sh"
     fi
 else
     show_error "Could not find a program to set clipboard contents."
