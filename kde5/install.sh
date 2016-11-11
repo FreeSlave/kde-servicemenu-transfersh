@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 KDE_SERVICEMENUS="$(kf5-config --path services | cut -d : -f1)ServiceMenus"
 
 install -d "$KDE_SERVICEMENUS/transfersh-scripts"

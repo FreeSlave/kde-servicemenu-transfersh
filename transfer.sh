@@ -46,7 +46,7 @@ upload_to_transfersh()
     
     if [ $? = 0 ]
     then
-        echo "$link"
+        echo -n "$link"
         return 0
     else
         show_error "Could not upload file to transfer.sh"
@@ -70,12 +70,7 @@ fi
 try_xclip()
 {
     echo "$link" | xclip -selection clipboard -t text/plain > /dev/null 2>&1
-    if [ $? = 0 ]
-    then
-        show_notify "Link copied to clipboard"
-    else
-        show_error "Could not copy link to clipboard"
-    fi
+    return $?
 }
 
 try_clipit()
@@ -83,27 +78,35 @@ try_clipit()
     if pidof clipit > /dev/null
     then
         echo -n "$link" | clipit > /dev/null 2>&1
-        if [ $? = 0 ]
-        then
-            show_notify "Link copied to clipit"
-        else
-            try_xclip
-        fi
+        return $?
     else
-        try_xclip
+        return 2
     fi
 }
 
-if pidof klipper > /dev/null && command_exists qdbus
-then
-    if qdbus org.kde.klipper /klipper org.kde.klipper.klipper.setClipboardContents "$link" > /dev/null 2>&1
+try_klipper()
+{
+    if pidof klipper > /dev/null && command_exists qdbus
     then
-        show_notify "Link copied to klipper"
+        qdbus org.kde.klipper /klipper org.kde.klipper.klipper.setClipboardContents "$link" > /dev/null 2>&1
+        return $?
     else
-        try_clipit
+        return 2
     fi
+}
+
+if try_klipper
+then
+    show_notify "Link copied to klipper"
+elif try_clipit
+then
+    show_notify "Link copied to clipit"
+elif try_xclip
+then
+    show_notify "Link copied to clipboard"
 else
-    try_clipit
+    show_error "Could not copy link to clipboard"
+    exit 1
 fi
 
 echo "$link"

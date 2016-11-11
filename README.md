@@ -9,7 +9,7 @@ Required:
 * curl
 * kde4-config (for KDE4) and kf5-config (for KDE5)
 
-Also at least one of the following requirements should be satisfied:
+Also at least one of the following requirements should be met:
 
 * running **klipper** + installed **qdbus**
 * running **clipit**
