@@ -9,3 +9,8 @@ if command -v kf5-config > /dev/null
 then
     (cd kde5 && ./deinstall.sh)
 fi
+
+if command -v tde-config > /dev/null
+then
+    (cd tde && ./deinstall.sh)
+fi

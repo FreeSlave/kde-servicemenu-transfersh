@@ -1,12 +1,9 @@
 [Desktop Entry]
-Actions=transferFile
+Actions=transferFile;
 ServiceTypes=all/allfiles
 X-TDE-ServiceTypes=all/allfiles
-X-KDE-StartupNotify=false
 X-TDE-StartupNotify=false
-X-KDE-Submenu=transfer.sh
 X-TDE-Submenu=transfer.sh
-X-KDE-Priority=TopLevel
 X-TDE-Priority=TopLevel
 
 [Desktop Action transferFile]

@@ -27,8 +27,8 @@ Optional (yet recommended):
 ./install.sh
 ```
 
-If possible this will install for both KDE4 and KDE5, so you will be able to use the script from e.g. KDE5 Dolphin and KDE4 Krusader.
-New submenu 'transfer.sh' should appear in the context menu of Dolphin and Krusader.
+If possible this will install for both KDE4 and KDE5 and also for TDE, so you will be able to use the script from e.g. KDE5 Dolphin, KDE4 Krusader and TDE Konqueror.
+New submenu 'transfer.sh' should appear in the context menu of Dolphin, Krusader and Konqueror.
 
 To uninstall type:
 
