@@ -20,6 +20,7 @@ Also at least one of the following requirements should be met:
 Optional (yet recommended):
 
 * notify-send (libnotify-bin package in Debian and Ubuntu)
+* kdialog or zenity to participate in dialogs
 
 ## Install
 
