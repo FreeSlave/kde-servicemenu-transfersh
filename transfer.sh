@@ -5,7 +5,7 @@ archive="$2"
 
 command_exists()
 {
-    command -v "$1" >/dev/null 2>&1
+    command -v -- "$1" >/dev/null 2>&1
 }
 
 show_error()
@@ -15,10 +15,10 @@ show_error()
         notify-send --icon=error "$1" --expire-time=3000 > /dev/null 2>&1
     elif command_exists kdialog
     then
-        kdialog --error "$1" > /dev/null 2>&1
+        kdialog --title "transfer.sh" --error "$1" > /dev/null 2>&1
     elif command_exists zenity
     then
-        zenity --error --text="$1" > /dev/null 2>&1
+        zenity --title="transfer.sh" --error --text="$1" > /dev/null 2>&1
     else
         echo "$1" 1>&2
     fi
@@ -32,6 +32,61 @@ show_notify()
         notify-send --icon="$2" "$1" --expire-time=2000 > /dev/null 2>&1
     else
         echo "$1"
+    fi
+}
+
+ask_really_upload()
+{
+    local yesLabel="Yes, upload"
+    local noLabel="No, abort"
+    
+    if command_exists kdialog
+    then
+        kdialog --title "transfer.sh" --warningyesno "$1" --yes-label "$yesLabel" --no-label "$noLabel" >/dev/null 2>&1
+        local result="$?"
+        if [ "$result" -eq "254" ]
+        then
+            kdialog --title "transfer.sh" --warningyesno "$1" >/dev/null
+        else
+            return "$result"
+        fi
+    elif command_exists zenity
+    then
+        zenity --title="transfer.sh" --question --text="$1" --default-cancel --ok-label="$yesLabel" --cancel-label="$noLabel" --icon-name=dialog-warning >/dev/null
+    elif command_exists notify-send
+    then
+        notify-send --icon=error "$1 Install kdialog or zenity to answer the dialog." --expire-time=6000 -u critical > /dev/null
+        return 1
+    else
+        echo "$1 Install kdialog or zenity to answer the dialog."
+        return 1
+    fi
+}
+
+check_directory()
+{
+    if [ $(dirname -- "$toUpload") = "/" ]
+    then
+        ask_really_upload "You're about to upload $toUpload directory (which is probably the big or important piece of your system) to transfer.sh. This is most likely an error. Do you really mean to do this?"
+    elif [ $(dirname -- "$toUpload") = "$HOME" ]
+    then
+        case $(basename -- "$toUpload") in
+        .*)
+            ask_really_upload "You're about to upload the hidden directory $toUpload to transfer.sh. It may contain data not intended to be shared with other parties. Do you really want to continue?"
+        ;;
+        *)
+            return 0
+        ;;
+        esac
+    else
+        case "$toUpload" in
+        "$HOME" | "$HOME/")
+            ask_really_upload "You're about to upload the whole $HOME directory to transfer.sh. It most likely contains your private data. Do you really want to proceed?"
+        ;;
+        *)
+            return 0
+        ;;
+        esac
     fi
 }
 
@@ -63,6 +118,14 @@ command_exists curl || show_error "Can't upload file. Install curl"
 
 if ( pidof klipper >/dev/null && command_exists qdbus ) || (pidof klipper >/dev/null && command_exists dcop ) || pidof clipit >/dev/null || command_exists xclip || command_exists xsel
 then
+    if [ -d "$toUpload" ]
+    then
+        if ! check_directory
+        then
+            return 1
+        fi
+    fi
+    
     if [ "$archive" = "zip" ]
     then
         command_exists zip || show_error "'zip' is not installed"
