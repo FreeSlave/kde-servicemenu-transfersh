@@ -15,7 +15,7 @@ Also at least one of the following requirements should be met:
 * running **clipit**
 * installed **xclip**
 * installed **xsel**
-* running **klipper** + instaleld **dcop** (for TDE)
+* running **klipper** + installed **dcop** (for TDE)
 
 Optional (yet recommended):
 

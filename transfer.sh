@@ -65,12 +65,12 @@ ask_really_upload()
 
 check_directory()
 {
-    if [ $(dirname -- "$toUpload") = "/" ]
+    if [ "$(dirname -- "$toUpload")" = "/" ]
     then
         ask_really_upload "You're about to upload $toUpload directory (which is probably the big or important piece of your system) to transfer.sh. This is most likely an error. Do you really mean to do this?"
-    elif [ $(dirname -- "$toUpload") = "$HOME" ]
+    elif [ "$(dirname -- "$toUpload")" = "$HOME" ]
     then
-        case $(basename -- "$toUpload") in
+        case "$(basename -- "$toUpload")" in
         .*)
             ask_really_upload "You're about to upload the hidden directory $toUpload to transfer.sh. It may contain data not intended to be shared with other parties. Do you really want to continue?"
         ;;
@@ -122,7 +122,7 @@ then
     then
         if ! check_directory
         then
-            return 1
+            return 0
         fi
     fi
     
@@ -157,19 +157,19 @@ fi
 
 try_xsel()
 {
-    echo -n "$link" | xsel -ib > /dev/null 2>&1
+    printf "%s" "$link" | xsel -ib > /dev/null 2>&1
     return $?
 }
 
 try_xclip()
 {
-    echo -n "$link" | xclip -selection clipboard -t text/plain > /dev/null 2>&1
+    printf "%s" "$link" | xclip -selection clipboard -t text/plain > /dev/null 2>&1
     return $?
 }
 
 try_clipit()
 {
-    pidof clipit > /dev/null && echo -n "$link" | clipit > /dev/null 2>&1
+    pidof clipit > /dev/null && printf "%s" "$link" | clipit > /dev/null 2>&1
     return $?
 }
 
