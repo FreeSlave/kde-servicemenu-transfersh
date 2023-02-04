@@ -94,7 +94,7 @@ link=""
 
 upload_to_transfersh()
 {
-    link=$(curl --silent --upload-file "$1" "https://transfer.sh/")
+    link=$(curl -g --silent --upload-file "$1" "https://transfer.sh/")
     return $?
 }
 
@@ -102,7 +102,7 @@ upload_to_transfersh_zip()
 {
     local name="$(basename "$1")"
     local dir="$(dirname "$1")"
-    link=$(cd "$dir" && zip -r - "$name" 2>/dev/null | curl --silent --upload-file - "https://transfer.sh/$name.zip")
+    link=$(cd "$dir" && zip -r - "$name" 2>/dev/null | curl -g --silent --upload-file - "https://transfer.sh/$name.zip")
     return $?
 }
 
@@ -110,7 +110,7 @@ upload_to_transfersh_tgz()
 {
     local name="$(basename "$1")"
     local dir="$(dirname "$1")"
-    link=$(cd "$dir" && tar -cz "$name" 2>/dev/null | curl --silent --upload-file - "https://transfer.sh/$name.tar.gz")
+    link=$(cd "$dir" && tar -cz "$name" 2>/dev/null | curl -g --silent --upload-file - "https://transfer.sh/$name.tar.gz")
     return $?
 }
 
